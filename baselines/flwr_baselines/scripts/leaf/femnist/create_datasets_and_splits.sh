@@ -15,10 +15,13 @@
 
 # Delete previous partitions if needed then extract the entire dataset
 echo 'Deleting previous dataset split.'
+FLOWER_ROOT="C:\Users\irene\PycharmProjects\flower"
+LEAF_ROOT="C:\Users\irene\PycharmProjects\leaf"
+SAVE_ROOT="C:\Users\irene\PycharmProjects\_leaf"
 cd ${LEAF_ROOT}/data/femnist
-if [ -d ${LEAF_ROOT}/data/femnist/data ]; then rm -rf ${LEAF_ROOT}/data/femnist/data ; fi 
+if [ -d ${LEAF_ROOT}/data/femnist/data ]; then rm -rf ${LEAF_ROOT}/data/femnist/data ; fi
 echo 'Creating new LEAF dataset split.'
-./preprocess.sh -s niid --sf 1.0 -k 5 -t sample --tf 0.8 
+./preprocess.sh -s niid --sf 0.05 -k 5 -t sample --tf 0.8
 
 # Format for Flower experiments. Val/train fraction set to 0.25 so validation/total=0.20
 cd ${FLOWER_ROOT}/baselines/flwr_baselines/scripts/leaf/femnist

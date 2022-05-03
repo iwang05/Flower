@@ -62,9 +62,11 @@ def start_client(
 
             while True:
                 server_message = receive()
+                log(INFO, "received from server")
                 client_message, sleep_duration, keep_going = handle(
                     client, server_message
                 )
+                log(INFO, "Sending to server")
                 send(client_message)
                 if not keep_going:
                     break

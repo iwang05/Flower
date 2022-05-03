@@ -165,7 +165,7 @@ if __name__ == "__main__":
         list(Path(args.leaf_train_jsons_root).glob("**/*.json"))
     )
     train_frac = 1.0 - args.val_frac
-    train_val_part_scheme = [("train", train_frac), ("val", args.val_frac)]
+    train_val_part_scheme = [("train", 1.0)]
     split_json_and_save(
         list_datasets=train_val_part_scheme,
         paths_to_json=original_train_datasets,

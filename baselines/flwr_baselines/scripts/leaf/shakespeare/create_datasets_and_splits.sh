@@ -16,6 +16,9 @@
 # Process Shakespeare for non-iid, 20% testset, minimum two lines
 # Delete previous partitions if needed then extract the entire dataset
 echo 'Deleting previous dataset split.'
+FLOWER_ROOT="C:\Users\irene\PycharmProjects\flower"
+LEAF_ROOT="C:\Users\irene\PycharmProjects\leaf"
+SAVE_ROOT="C:\Users\irene\PycharmProjects\_leaf"
 if [[ -z "${LEAF_ROOT}" ]]; then
   echo 'The environment variable LEAF_ROOT is not set. Exiting...'
   exit 1
@@ -24,13 +27,13 @@ fi
 cd ${LEAF_ROOT}/data/shakespeare
 if [ -d ${LEAF_ROOT}/data/shakespeare/data ]; then rm -rf ${LEAF_ROOT}/data/shakespeare/data ; fi && \
 echo 'Creating new LEAF dataset split.'
-./preprocess.sh -s niid --sf 1.0 -k 2 -t sample --tf 0.8
+./preprocess.sh -s niid --sf 1.0 -k 10000 -t sample --tf 0.8
 
 # Format for Flower experiments. Val/train fraction set to 0.25 so validation/total=0.20
 cd ${FLOWER_ROOT}/baselines/flwr_baselines/scripts/leaf/shakespeare
 python split_json_data.py \
 --save_root ${SAVE_ROOT}/shakespeare \
---leaf_train_json ${LEAF_ROOT}/data/shakespeare/data/train/all_data_niid_0_keep_2_train_8.json \
+--leaf_train_json ${LEAF_ROOT}/data/shakespeare/data/train/all_data_niid_0_keep_10000_train_8.json \
 --val_frac 0.25 \
---leaf_test_json ${LEAF_ROOT}/data/shakespeare/data/test/all_data_niid_0_keep_2_test_8.json
+--leaf_test_json ${LEAF_ROOT}/data/shakespeare/data/test/all_data_niid_0_keep_10000_test_8.json
 echo 'Done'

@@ -152,7 +152,7 @@ if __name__ == "__main__":
     # then save files for each client
     original_train_dataset = Path(args.leaf_train_json)
     train_frac = 1.0 - args.val_frac
-    train_val_datasets = [("train", train_frac), ("val", args.val_frac)]
+    train_val_datasets = [("train", 1.0)]
     existing_users = split_json_and_save(
         list_datasets=train_val_datasets,
         path_to_json=original_train_dataset,

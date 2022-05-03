@@ -132,6 +132,8 @@ class Server:
         # Run federated learning for num_rounds
         log(INFO, "FL starting")
         start_time = timeit.default_timer()
+        the_last_loss = 1.0
+        patience = 5
 
         for current_round in range(1, num_rounds + 1):
             # Train model and replace previous global model
@@ -153,8 +155,26 @@ class Server:
                     metrics_cen,
                     timeit.default_timer() - start_time,
                 )
+
                 history.add_loss_centralized(rnd=current_round, loss=loss_cen)
                 history.add_metrics_centralized(rnd=current_round, metrics=metrics_cen)
+
+                # Early stopping
+                the_current_loss = loss_cen
+
+                if the_current_loss > the_last_loss:
+                    trigger_times += 1
+                    print('trigger times:', trigger_times)
+
+                    if trigger_times >= patience:
+                        print('Early stopping!\nStart to test process.')
+                        break
+
+                else:
+                    print('trigger times: 0')
+                    trigger_times = 0
+
+                the_last_loss = the_current_loss
 
             # Evaluate model on a sample of available clients
             res_fed = self.evaluate_round(rnd=current_round)
@@ -361,7 +381,9 @@ def fit_clients(
 
 def fit_client(client: ClientProxy, ins: FitIns) -> Tuple[ClientProxy, FitRes]:
     """Refine parameters on a single client."""
+    log(INFO, f"sending to : {client.cid}")
     fit_res = client.fit(ins)
+    log(INFO, f"received from to : {client.cid}")
     return client, fit_res
 
 

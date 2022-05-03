@@ -21,6 +21,9 @@ from .fault_tolerant_fedavg import FaultTolerantFedAvg as FaultTolerantFedAvg
 from .fedadagrad import FedAdagrad as FedAdagrad
 from .fedadam import FedAdam as FedAdam
 from .fedavg import FedAvg as FedAvg
+from .feddrop import FedDrop as FedDrop
+from .feddropR import FedDropR as FedDropR
+from .feddropS import FedDropS as FedDropS
 from .fedfs_v0 import FedFSv0 as FedFSv0
 from .fedfs_v1 import FedFSv1 as FedFSv1
 from .fedyogi import FedYogi as FedYogi
@@ -35,6 +38,9 @@ __all__ = [
     "FedAdagrad",
     "FedAdam",
     "FedAvg",
+    "FedDrop",
+    "FedDropR",
+    "FedDropS",
     "FedFSv0",
     "FedFSv1",
     "FedYogi",
